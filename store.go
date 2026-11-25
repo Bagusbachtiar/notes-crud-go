@@ -24,20 +24,24 @@ func (s *NoteStore) GetAllNotes(ctx context.Context) ([]Note, error) {
 
 	//in Query return 2 value not like Exec. rows in the db, and the error
 	rows, err := s.db.Query(ctx, query)
+	// this means if err != (is not Equal) to nil (zero) if its error then its not nil (zero+) so run the {}
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	//Create ana empty slice (list) to hold notes we read from DB 
+	//empty list from struct model in model.go
 	var notes []Note
 
+	//for is loop, rows.Next is pointing the loop to get the next Row and parentheses is to trigger it wether u get the row or not
 	for rows.Next() {
+		//making new n var from struct Note in model.go
 		var n Note
-		//copy the 4 columns from the current DB row into notes struct
-		id err := rows.Scan(&n.ID, &n.Title, &n.Content, &n.CreatedAt); err != nil {
+		// 1st part of this is catching error in rows.Scan after ; is to see if the err is nil (zero) if its not zero then return nil, err
+		if err := rows.Scan(&n.ID, &n.Title, &n.Content, &n.CreatedAt); err != nil {
 			return nil, err
 		}
+		//the n data that already scanned and correct is inserted to notes. which is Note struct in model.go
 		notes = append(notes, n)
 	}
 	return notes, nil
