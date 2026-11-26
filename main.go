@@ -11,7 +11,6 @@ import (
 	"net/http"
 	//Reads computer environtment variables (os.Getemv("DATABASE_URL"))
 	"os"
-
 	//postgress driver that creates dbPool Connection
 	"github.com/jackc/pgx/v5/pgxpool"
 	//Loads key value pairs from .env file into memmory
