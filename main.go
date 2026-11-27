@@ -44,8 +44,19 @@ func main() {
 	//net/http is like the path net is the folder http the actual package and then () parentheses to execute func
 	mux := http.NewServeMux() 
 
+	//mux.HandleFunc is a method, mux is from var above and HanldeFunc is a method attached to mux
+	//mux.HandleFunc takes two inputs inside its parentheses: the URL pattern ("POST /notes") and an anonymous function (func(w http.ResponseWriter, r *http.Request)) that runs whenever a user hits that URL
+	//1. The Route, POST /notes . this tells mux to trigger this function when http post req arrives at notes like in Laravel route::post('/notes', ...)
+	//2. Inline Handler inside inline Handler is interface (w http.ResponseWriter) and a struct taken from net/http (r http.Request)
+	// w http.ResponseWriter, w is a var and http.ResponseWriter is a outgoing response headers status codes (201, 400, 500). so its to send messsage if its err or not.
+	// r http.Request, r is also a var and http.Request is a struct handlingincoming Request
+	// * is a pointer to existing var http.Request that already processed by RAM so when u have same Var construct to process u use * to save memmory. 
 	mux.HandleFunc("POST /notes", func(w http.ResponseWriter, r *http.Request){
+	
+		//new var, input is a variable also but for empty box like in Laravel ($store/$update)
+		//Note is a defined struct blueprint inside store.go like model in Laravel (ID, Title, Content, CreatedAt)
 		var input Note
+		
 		if err := json.NewDecoder(r.Body).Decode(&input); err != nil || input.Title == "" {
 			http.Error(w, "Title and content are required", http.StatusBadRequest)
 			return

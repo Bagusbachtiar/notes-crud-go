@@ -1,1 +1,2 @@
+//adding this after it pushed is not enough. u have to "git rm --cached .env" and then push again
 .env

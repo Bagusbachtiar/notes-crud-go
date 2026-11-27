@@ -11,6 +11,7 @@ type NoteStore struct {
 }
 
 //CreateNote inserts a new row into neon postgress (like Note::create() in Laravel)
+//* is a pointer to existing var NoteStore that already processed by RAM so when u have same Var construct to process u use * to save memmory. 
 func (s *NoteStore) CreateNote(ctx context.Context, title, content string) error {
 	query := `INSERT INTO notes (title, content) VALUES ($1, $2)`
 	//_ throw 1st values which is succed and take 2nd values which is error. in EXEC only have/need to get 1 values which is error. no need succes return.
